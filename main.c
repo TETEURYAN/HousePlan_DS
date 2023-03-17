@@ -50,22 +50,22 @@ void Display()
     glFlush(); 
 }
 
-void Keyboard(unsigned char key, int x, int y)
-{
-    printf("Choose a letter = %c\n", key);
+void reshape(int w, int h) {
+    glViewport(0, 0, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(-600, 600, -360, 360);
+    glMatrixMode(GL_MODELVIEW);
+}
 
-    if(key == 'q')
-    {
-        exit(0);
-    }
-
-    if(key == 'l')
-    {
-        MoreZoom();
-    }
-    if(key == 'j')
-    {
-        LessZoom();
+void keyboard(unsigned char key, int x, int y) {
+    switch (key){
+    case 'l':
+        MoreZoom(); 
+        break;
+    case 'j':
+        LessZoom(); 
+        break;
     }
     glutPostRedisplay();
 }
@@ -80,7 +80,8 @@ int main(int argc, char **argv)
   glClearColor(0.0, 0.0, 0.0, 1.0); 
   gluOrtho2D(-600, 600, -360, 360); 
   glutDisplayFunc(Display);
-  glutKeyboardFunc(Keyboard);
+  glutReshapeFunc(reshape);
+  glutKeyboardFunc(keyboard);
   glutMainLoop();
 
   return 0;
