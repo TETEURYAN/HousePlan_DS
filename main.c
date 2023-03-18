@@ -2,13 +2,14 @@
 #include "src/calcs.h"
 #include "src/zoom.h"
 #include <GL/glut.h>
-#include <math.h>
 #include <stdio.h>
-#include <stdbool.h>
+#include <iso646.h>
 
-void AddZoom(void); void MoreZoom(void); void LessZoom(void);
 void MakeElipse(GLfloat, GLfloat, GLfloat);
-void MakeFirstRoom(GLfloat x, GLfloat y, GLfloat radius);
+void MakeFirstRoom(GLfloat, GLfloat, GLfloat);
+void AddZoom(void);void MoreZoom(void);void LessZoom(void);
+
+int level = 0;
 
 void Display() 
 {
@@ -17,14 +18,23 @@ void Display()
     AddZoom();
     glColor3f(0.0, 1.0, 0.0);
 
-
+    switch (level)
+    {
+    case 0:
         MakeFirstRoom(0,0,150);
-
+        break;
+    case 1:
         MakeElipse(-400.0, 0, 150.0);// segundo andar
         MakeElipse(-400.0, 0, 145.0);// paredes segundo andar
-        
+        break;
+    case 2:
         MakeElipse(400, 0, 150.0);// sótão
         MakeElipse(400, 0, 145.0);// paredes do sótão
+        break;
+    default:
+        level = 0;
+        break;    
+    }
 
     glFlush(); 
 }
@@ -44,6 +54,12 @@ void keyboard(unsigned char key, int x, int y) {
         break;
     case 'j':
         LessZoom(); 
+        break;
+    case 'q':
+        level = (level != 0 and level > -1) ? --level : 0; 
+        break;
+    case 'e':
+        level = (level != 2 and level < 3) ? ++level : 2;        
         break;
     }
     glutPostRedisplay();
