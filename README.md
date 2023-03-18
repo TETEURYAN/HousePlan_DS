@@ -6,6 +6,7 @@ Project for the subject Structure of Data on House Plan. 2nd semester (2022.2) o
 </p>
 
 <left>
+
 Members:
 
     Matheus Ryan | Caio César | João Gomes 
@@ -13,5 +14,20 @@ Members:
  
  ## About
   This project is based on the implementation of data structures in the construction of the floor plan of a house. This purpose is to improve knowledge of the different structures and their applications.
- 
   
+## SO requirements
+  OpenGL and GCC
+  
+  * To install OpenGL whit this repo:
+  
+```bash
+sudo chmod 777 install.sh
+./install.sh
+```
+
+  * To install GCC whit this repo:
+  
+  ```bash
+ sudo apt update
+
+```
