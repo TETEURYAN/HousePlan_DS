@@ -1,4 +1,3 @@
-#include "calcs.h"
 #include <math.h>
 
 double raio(double area)

@@ -1,8 +1,7 @@
-#include "zoom.h"
 #include <GL/freeglut.h>
 
 double IndexZoom = 1.0f;
-double Zoom = 0.1f;
+GLfloat Zoom = 0.1;
 
 void AddZoom()
 {
