@@ -1,6 +1,5 @@
 #include <GL/glut.h>
 #include <math.h>
-#include "house.h"
 
 void MakeElipse(GLfloat x, GLfloat y, GLfloat radius)
 {
