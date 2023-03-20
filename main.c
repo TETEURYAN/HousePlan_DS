@@ -1,12 +1,13 @@
-#include "src/house.h"
-#include "src/calcs.h"
-#include "src/zoom.h"
 #include <GL/glut.h>
 #include <stdio.h>
 #include <iso646.h>
+#include "src/calcs.h"
+#include "src/drawning.h"
+#include "src/zoom.h"
+#include "src/house.h"
 
 void MakeElipse(GLfloat, GLfloat, GLfloat);
-void MakeFirstRoom(GLfloat, GLfloat, GLfloat);
+void MakeRoom(Room *, Room *, Room *, GLfloat, GLfloat, GLfloat);
 void AddZoom(void);void MoreZoom(void);void LessZoom(void);
 
 int level = 0;
@@ -18,18 +19,21 @@ void Display()
     AddZoom();
     glColor3f(0.0, 1.0, 0.0);
 
+    Room * cozinhaa = newRoom("Cozinha", 550, 150-5, 150*0.4, -1, 240);
+    Room * quarto = newRoom("Quarto", 550, 150-5,150*0.4, -1, -6);
+    Room * salaOne = newRoom("Sala", 550, 150-5,150*0.4, -1, 120);
+    Room * salaTwo = newRoom("Sala", 550, 150-5,150*0.4, -1, 50);
+
     switch (level)
     {
     case 0:
-        MakeFirstRoom(0,0,150);
+        MakeRoom(cozinhaa, salaTwo, NULL, 0, 0, 150);
         break;
     case 1:
-        MakeElipse(-400.0, 0, 150.0);// segundo andar
-        MakeElipse(-400.0, 0, 145.0);// paredes segundo andar
+        MakeRoom(quarto, salaOne, NULL, 0, 0,150);
         break;
     case 2:
-        MakeElipse(400, 0, 150.0);// sótão
-        MakeElipse(400, 0, 145.0);// paredes do sótão
+        MakeRoom(salaOne, salaTwo, cozinhaa, 0, 0, 150);
         break;
     default:
         level = 0;
@@ -71,7 +75,7 @@ int main(int argc, char **argv)
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
   glutInitWindowSize(1200, 720); 
-  glutCreateWindow("Circunferência");
+  glutCreateWindow("Planta baixa em circunferência");
   glClearColor(0.0, 0.0, 0.0, 1.0); 
   gluOrtho2D(-600, 600, -360, 360); 
   glutDisplayFunc(Display);
