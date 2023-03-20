@@ -6,7 +6,7 @@ extern double Zoom;
 
 void AddZoom(void);
 void MoreZoom(void);
-oid LessZoom(void);
+void LessZoom(void);
 void MakeElipse(GLfloat x, GLfloat y, GLfloat radius);
 void MakeRoom(Room * comodoOne, Room * comodoTwo, Room * comodoThree, GLfloat x, GLfloat y, GLfloat radius);
 
