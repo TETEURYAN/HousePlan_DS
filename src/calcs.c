@@ -24,3 +24,13 @@ double area_setor(double raio, double angulo)
 {
     return (angulo * M_PI * pow(raio, 2)) / 360;
 }
+
+double coef(double x1, double x2, double y1, double y2)
+{
+    return ((y2 - y1)/(x2 - x1));
+}
+
+double reta(double coef, double Xpoint, double equacao)
+{
+    return ((coef * Xpoint) + equacao);
+}
