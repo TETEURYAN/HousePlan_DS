@@ -3,10 +3,6 @@
 #include <iso646.h>
 #include "src/calcs.h"
 #include "src/drawning.h"
-<<<<<<< Updated upstream
-#include "src/zoom.h"
-=======
->>>>>>> Stashed changes
 #include "src/house.h"
 
 void MakeElipse(GLfloat, GLfloat, GLfloat);
@@ -22,12 +18,8 @@ void Display()
     AddZoom();
     glColor3f(0.0, 1.0, 0.0);
 
-<<<<<<< Updated upstream
-    Room * cozinhaa = newRoom("Cozinha", 550, 150-5, 150*0.4, -1, 240);
-=======
     //The sector will receive the raio value
     Room * cozinhaa = newRoom("Cozinha", 550, 150-5, 150*0.4, -1, 240); 
->>>>>>> Stashed changes
     Room * quarto = newRoom("Quarto", 550, 150-5,150*0.4, -1, -6);
     Room * salaOne = newRoom("Sala", 550, 150-5,150*0.4, -1, 120);
     Room * salaTwo = newRoom("Sala", 550, 150-5,150*0.4, -1, 50);
