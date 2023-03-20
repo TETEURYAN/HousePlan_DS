@@ -1,12 +1,3 @@
-<<<<<<< Updated upstream
-#ifdef HOUSE_H
-#define HOUSE_H
-
-void MakeElipse(GLfloat, GLfloat, GLfloat);
-void MakeFirstRoom(GLfloat x, GLfloat y, GLfloat radius);
-
-#endif // HOUSE_H
-=======
 #ifndef HOUSE_H
 #define HOUSE_H
 
@@ -29,4 +20,3 @@ Room * newRoom(char *, double, double, double, int, double);
 void drawRoom(Room *);
 
 #endif // HOUSE_H
->>>>>>> Stashed changes
