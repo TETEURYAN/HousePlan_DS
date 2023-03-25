@@ -33,10 +33,18 @@ void drawRoom(Room * comodo)
     double m, equ, x1, x2, y1, y2;
 
     angulo = comodo->angle;
+<<<<<<< Updated upstream
     for(int i = -1; i < 2; i+=2)
     {
 
         glColor3f(0.0, 1.0, 0.0);
+=======
+
+    for(int i = -1; i < 2; i+=2)
+    {
+
+        glColor3f(0.0, 0.0, 0.0);
+>>>>>>> Stashed changes
 
         angulo += dangle;
         deg = angulo * M_PI / 180;
@@ -46,6 +54,10 @@ void drawRoom(Room * comodo)
         glBegin(GL_LINE_LOOP);
         glVertex2f(cos(deg) * comodo->r1, sin(deg) * comodo->r1);
         glVertex2f(cos(deg) * comodo->r2, sin(deg) * comodo->r2);
+<<<<<<< Updated upstream
+=======
+        
+>>>>>>> Stashed changes
         glEnd();
 
         if(i == -1)
@@ -58,8 +70,15 @@ void drawRoom(Room * comodo)
 
     x1 = comodo->cobert[wall_pos+1][0]; y1 = comodo->cobert[wall_pos+1][1];
     x2 = comodo->cobert[wall_pos+2][0]; y2 = comodo->cobert[wall_pos+2][1];
+<<<<<<< Updated upstream
     option = (x1 >= 0) ? 1 : -1;
     m = coef(x1, x2, y1, y2);
+=======
+
+    option = (x1 >= 0) ? 1 : -1;
+    m = coef(x1, x2, y1, y2);
+
+>>>>>>> Stashed changes
     equ = y1 - m*x1;
     equ = equ + wall_pos*option*(5*(sqrt(1 + m*m)));
 
@@ -77,3 +96,7 @@ void drawRoom(Room * comodo)
     glEnd();
 
 }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
