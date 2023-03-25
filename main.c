@@ -7,10 +7,7 @@
 
 void MakeElipse(GLfloat, GLfloat, GLfloat);
 void MakeRoom(Room *, Room *, Room *, GLfloat, GLfloat, GLfloat);
-<<<<<<< Updated upstream
-=======
 void MakeBackground(float x, float y, float r, int numPontos);
->>>>>>> Stashed changes
 void AddZoom(void);void MoreZoom(void);void LessZoom(void);
 
 int level = 0;
@@ -80,11 +77,7 @@ int main(int argc, char **argv)
   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
   glutInitWindowSize(1200, 720); 
   glutCreateWindow("Planta baixa em circunferência");
-<<<<<<< Updated upstream
-  glClearColor(0.0, 0.0, 0.0, 1.0); 
-=======
   glClearColor(0.0, 0.0, 0.0, 0.0); 
->>>>>>> Stashed changes
   gluOrtho2D(-600, 600, -360, 360); 
   glutDisplayFunc(Display);
   glutReshapeFunc(reshape);
