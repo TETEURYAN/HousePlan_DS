@@ -4,6 +4,7 @@
 typedef struct Room{
     char name[15];
     double area;
+    double areaScreen;
     double angle;
     double delta;
     double r1;
@@ -16,11 +17,7 @@ typedef struct Room{
 } Room;
 
 
-Room * newRoom(char *, double, double, double, int, double);
+Room * newRoom(char *, double, double, double, double, int, double);
 void drawRoom(Room *);
 
-<<<<<<< Updated upstream
 #endif // HOUSE_H
-=======
-#endif // HOUSE_H
->>>>>>> Stashed changes

@@ -34,3 +34,8 @@ double reta(double coef, double Xpoint, double equacao)
 {
     return ((coef * Xpoint) + equacao);
 }
+
+int Min(int a, int b)
+{
+    return (a >= b) ? a : b; 
+}

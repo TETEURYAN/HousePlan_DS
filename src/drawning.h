@@ -9,9 +9,9 @@ void MoreZoom(void);
 void LessZoom(void);
 void MakeElipse(GLfloat x, GLfloat y, GLfloat radius);
 void MakeRoom(Room * comodoOne, Room * comodoTwo, Room * comodoThree, GLfloat x, GLfloat y, GLfloat radius);
-<<<<<<< Updated upstream
-=======
-void MakeBackground(float x, float y, float r, int numPontos);
->>>>>>> Stashed changes
+void WelcomeScreen();
+void loadScreen ();
+void SleepSO(int tempoMS);
+drawName(float x, float y, char * string);
 
 #endif // DRAWNING_H

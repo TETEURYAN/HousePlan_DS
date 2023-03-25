@@ -14,4 +14,7 @@ double area_setor(double, double);
 double reta(double, double, double );
 
 double coef(double, double, double, double );
+
+int Min(int a, int b);
+
 #endif // CALCS_H
