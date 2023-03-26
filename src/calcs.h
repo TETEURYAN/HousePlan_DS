@@ -15,6 +15,8 @@ double reta(double, double, double );
 
 double coef(double, double, double, double );
 
-int Min(int a, int b);
+int Min(int , int);
+
+AreaCircle(double, double );
 
 #endif // CALCS_H

@@ -1,5 +1,7 @@
 #include <math.h>
 
+
+
 double raio(double area)
 {
     return sqrt(area/M_PI);
@@ -35,7 +37,22 @@ double reta(double coef, double Xpoint, double equacao)
     return ((coef * Xpoint) + equacao);
 }
 
-int Min(int a, int b)
+double Min(double a, double b)
 {
-    return (a >= b) ? a : b; 
+    return (a <= b) ? a : b; 
+}
+
+double AreaCircle(double largura, double comprimento)
+{
+    double min = Min(largura, comprimento);
+    
+
+    if(min == 8.7) min *= 0.95;
+    else if(min < 15) min *= 0.8;
+    else if(min < 25) min *= 0.7;
+    else min *= 0.6;
+
+    min /= 2;
+
+    return min;
 }

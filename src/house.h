@@ -1,9 +1,13 @@
 #ifndef HOUSE_H
 #define HOUSE_H
 
+#include<stdbool.h>
+
 typedef struct Room{
-    char name[15];
+    char name[20];
     double area;
+    double areaMax;
+    double areaMin;
     double areaScreen;
     double angle;
     double delta;
@@ -12,12 +16,33 @@ typedef struct Room{
     int wall;
     double cobert[4][2]; 
     double wallp[2][2]; 
-    struct Room * next;
+    //struct Room * next;
 
 } Room;
 
+typedef struct stack {
+    Room comodos[12];
+    int topo;
+} Stack;
 
-Room * newRoom(char *, double, double, double, double, int, double);
-void drawRoom(Room *);
+typedef struct listFloor
+{
+    Room comodo;
+    struct listFloor * next;
+}listFloor;
+
+typedef struct pisos {
+    bool empty;
+    struct listFloor *firstComodo;
+} Piso;
+
+void insertInStack (Stack *, char *, double , double, double , double , double , double , int , double );
+Stack initStack (Stack);
+Room newRoom(char * name, double min, double max, double area, double areaScreen, double raioOne, double raioTwo, int wall_pos, double angulo);
+void drawRoom(Room );
+void printStack(Stack );
+listFloor * getRoom(Room);
+void AddFloor(Stack sector, Piso floor[],double AreaTear, double AreaMax, int *);
+
 
 #endif // HOUSE_H

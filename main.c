@@ -1,6 +1,8 @@
 #include <GL/glut.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <iso646.h>
+#include <math.h>
 #include "src/calcs.h"
 #include "src/drawning.h"
 #include "src/house.h"
@@ -11,22 +13,49 @@
     #include <unistd.h>
 #endif
 
+#define MINIM 8.7
+double TEAR = 7.7;
 
 //Em função do problema das bibliotecas, precisei chama-las novamente nessa sessão
 void MakeElipse(GLfloat, GLfloat, GLfloat);
-void MakeRoom(Room *, Room *, Room *, GLfloat, GLfloat, GLfloat);
+void MakeRoom( listFloor *, GLfloat, GLfloat, GLfloat);
 void MakeBackground(float x, float y, float r, int numPontos);
 void AddZoom(void);void MoreZoom(void);void LessZoom(void);
 void WelcomeScreen();
 void loadScreen ();
 void SleepSO(int tempoMS);
-int Min(int a, int b);
+double Min(double a, double b);
+double AreaCircle(double , double );
 
 //variáveis globais criadas para armazenar os valores de largura, comprimento, sol e raio da imagem
 int level = 0;
-int largura = 0, comprimento = 0;
+double largura = 0, comprimento = 0;
 int sun = 0;
-int raioImage;
+double AreaTear;
+Piso Home[12];
+Stack sector;
+double AreaMax;
+double Raio;
+int NumFloor = 0;
+
+void printFloor(Piso Home[], int tam)
+{
+    int i = 0;
+    while(i < tam){
+        if(Home[i].empty == false){
+            printf("Andar %d: ", i+1);
+            listFloor * aux = Home[i].firstComodo;
+            while(aux){
+                printf("%s ", aux->comodo.name);
+                aux = aux->next;
+            }
+            printf("\n");
+            i++;
+            }
+        else printf("Andar %d: Vazio!\n", i+1),i++;  
+    }
+
+}
 
 void Display() //Função de display
 {
@@ -35,29 +64,8 @@ void Display() //Função de display
     AddZoom();
     glColor3f(0.0, 0.0, 0.0);
 
-    //The sector will receive the raio value
-    //Seção para a criação de cômodos
-    Room * cozinhaa = newRoom("Cozinha", 550, raioImage, 150-5, 150*0.4, -1, 240); 
-    Room * quarto = newRoom("Quarto", 550, raioImage, 150-5,150*0.4, -1, -6);
-    Room * salaOne = newRoom("Sala", 550, raioImage, 150-5,150*0.4, -1, 120);
-    Room * salaTwo = newRoom("Sala", 550, raioImage, 150-5,150*0.4, -1, 50);
-
-    //O level é o andar, que anda a cada clique na tecla E e volta em Q
-    switch (level)
-    {
-    case 0:
-        MakeRoom(cozinhaa, salaTwo, NULL, 0, 0, 150); // Cada função MakeRoom suporta até 3 cômodos, sendo esse o número máximo por andar
-        break;
-    case 1:
-        MakeRoom(quarto, salaOne, NULL, 0, 0, 150);
-        break;
-    case 2:
-        MakeRoom(salaOne, salaTwo, cozinhaa, 0, 0, 150);
-        break;
-    default:
-        level = 0;//para não escapar dos níveis de andar, toda vez que o limite extrapolar, ele volta ao primeiro anda
-        break;    
-    }
+    listFloor * aux = Home[level].firstComodo;
+    MakeRoom(aux,0, 0, 150);
 
     glFlush(); 
 }
@@ -82,7 +90,7 @@ void keyboard(unsigned char key, int x, int y) {//Função para receber informa�
         level = (level != 0 and level > -1) ? --level : 0; 
         break;
     case 'e':
-        level = (level != 2 and level < 3) ? ++level : 2;        
+        level = (level != NumFloor-1 and level < NumFloor) ? ++level : NumFloor-1;        
         break;
     }
     glutPostRedisplay();
@@ -96,15 +104,15 @@ void input()//Função para a entrada de largura, comprimento da área e nascer 
             WelcomeScreen();
             
             printf("Digite um valor para a largura: ");
-            scanf("%d", &largura);
+            scanf("%lf", &largura);
             if(largura < 0) largura = 0;
             
             printf("Digite um valor para o comprimento: ");
-            scanf("%d", &comprimento);
+            scanf("%lf", &comprimento);
             if(comprimento < 0) comprimento = 0;
             
             
-        } while (not largura or not comprimento);
+        } while ( largura < MINIM or comprimento < MINIM);
 
         system("clear || cls");
 
@@ -125,8 +133,18 @@ void input()//Função para a entrada de largura, comprimento da área e nascer 
 
         loadScreen ();//Tela de carregamento, clássica
         
-        raioImage = Min(largura, comprimento); //Raio em função das entradas dadas, crucial para definir a área exibida na tela
-        raioImage /= 3;
+        AreaTear = Min(largura, comprimento);
+        Raio = AreaCircle(largura, comprimento);
+        AreaTear = (M_PI * Raio) - (7.7)/2; // - (M_PI/2))*AreaTear;
+        printf("Area Tear: %.2lf\n", AreaTear); //Raio em função das entradas dadas, crucial para definir a área exibida na tela
+        AreaMax = (Raio * Raio * M_PI) - TEAR;
+
+        sector = initStack(sector);
+        printStack(sector);
+
+        AddFloor(sector, Home, AreaTear, AreaMax, &NumFloor);
+
+        printFloor(Home, ++NumFloor);
 }
 
 int main(int argc, char **argv) //Cérebro

@@ -8,7 +8,7 @@ void AddZoom(void);
 void MoreZoom(void);
 void LessZoom(void);
 void MakeElipse(GLfloat x, GLfloat y, GLfloat radius);
-void MakeRoom(Room * comodoOne, Room * comodoTwo, Room * comodoThree, GLfloat x, GLfloat y, GLfloat radius);
+void MakeRoom(listFloor *, GLfloat x, GLfloat y, GLfloat radius);
 void WelcomeScreen();
 void loadScreen ();
 void SleepSO(int tempoMS);

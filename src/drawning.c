@@ -105,8 +105,9 @@ void MakeElipse(GLfloat x, GLfloat y, GLfloat radius)//Principal função para o
 {
 
     glBegin(GL_LINE_LOOP);
-        for(int i=0; i<360; i++) { //O desenho das elipses é feito com base na geometria euclidiana
-        GLfloat angle = i * M_PI/ 180.0; // Converte graus para radianos
+        for(int i=0; i<360; i++) {
+            glColor3f(0.0, 0.0, 0.0); //O desenho das elipses é feito com base na geometria euclidiana
+            GLfloat angle = i * M_PI/ 180.0; // Converte graus para radianos
 
         glVertex2f(x + radius * cos(angle), y + radius * sin(angle));
         }
@@ -130,18 +131,28 @@ void MakeBackground(float x, float y, float r, int numPontos) {//Função que de
 
 }
 
-void MakeRoom(Room * comodoOne, Room * comodoTwo, Room * comodoThree, GLfloat x, GLfloat y, GLfloat radius)//Função que desenha o andar junto de cada cômodo
+void MakeRoom(listFloor * comodo, GLfloat x, GLfloat y, GLfloat radius)//Função que desenha o andar junto de cada cômodo
 {
 
     MakeBackground(x, y, radius + 10, 160);//Chama a função de backgound
     
     //Drawn the room selected
-    if(comodoOne != NULL)
-        drawRoom(comodoOne);
-     if(comodoTwo != NULL)
-        drawRoom(comodoTwo);
-     if(comodoThree != NULL)
-        drawRoom(comodoThree);
+
+    listFloor * aux = comodo;
+
+    while (aux)
+    {
+        drawRoom(aux->comodo);
+        aux = aux->next;
+    }
+    
+
+    // if(comodoOne != NULL)
+    //     drawRoom(comodoOne);
+    //  if(comodoTwo != NULL)
+    //     drawRoom(comodoTwo);
+    //  if(comodoThree != NULL)
+    //     drawRoom(comodoThree);
 
     MakeElipse(x, y, radius);// paredes andar ou terreo
     MakeElipse(x, y, radius - 5);// paredes andar ou terreo
