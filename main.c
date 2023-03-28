@@ -26,6 +26,7 @@ void loadScreen ();
 void SleepSO(int tempoMS);
 double Min(double a, double b);
 double AreaCircle(double , double );
+void clearScreen();
 
 //variáveis globais criadas para armazenar os valores de largura, comprimento, sol e raio da imagem
 int level = 0;
@@ -65,7 +66,7 @@ void Display() //Função de display
     glColor3f(0.0, 0.0, 0.0);
 
     listFloor * aux = Home[level].firstComodo;
-    MakeRoom(aux,0, 0, 300,level, Raio, sun);
+    MakeRoom(aux,0, 0, level, Raio, Raio, sun);
 
     glFlush(); 
 }
@@ -98,9 +99,9 @@ void keyboard(unsigned char key, int x, int y) {//Função para receber informa�
 
 void input()//Função para a entrada de largura, comprimento da área e nascer do sol
 {
-        system("clear || cls");
         do //Loop para a digitação em intervalos corretosde números aceitos
         {
+            clearScreen();
             WelcomeScreen();
             
             printf("Digite um valor para a largura: ");
@@ -114,10 +115,10 @@ void input()//Função para a entrada de largura, comprimento da área e nascer 
             
         } while ( largura < MINIM or comprimento < MINIM);
 
-        system("clear || cls");
 
         do //Laço para a decisão do nascer do sol
         {
+            clearScreen();
             WelcomeScreen();
             printf("Digite um valor para o nascer do sol:\n\n"
                     "(1) - Norte\n"

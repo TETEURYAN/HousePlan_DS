@@ -49,10 +49,11 @@ double AreaCircle(double largura, double comprimento)
     double min = Min(largura, comprimento);
     
 
-    if(min == 8.7) min *= 0.95;
+    if(min == 9.7) min *= 0.95;
     else if(min < 15) min *= 0.8;
     else if(min < 25) min *= 0.7;
-    else min *= 0.6;
+    else if(min <= 30) min *= 0.6;
+    else min = 30;
 
     min /= 2;
 

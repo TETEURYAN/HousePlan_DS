@@ -61,15 +61,15 @@ Stack initStack (Stack pilhaDeComodos, double raioDaCasa) {//Inicializa a pilha 
     insertInStack(&pilhaDeComodos, "SALA DE GINASTICA", 25.0, 40.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 240);
     insertInStack(&pilhaDeComodos, "CLOSET", 3.0, 4.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 200 );
     insertInStack(&pilhaDeComodos, "QUARTO 3", 12.0, 30.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 160 );
-    insertInStack(&pilhaDeComodos, "QUARTO 2", 12.0, 30.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 120 );
-    insertInStack(&pilhaDeComodos, "QUARTO 1", 12.0, 30.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 80 );
     insertInStack(&pilhaDeComodos, "BANHEIRO 2", 3.0, 8.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 40);
+    insertInStack(&pilhaDeComodos, "QUARTO 2", 12.0, 30.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 120 );
     insertInStack(&pilhaDeComodos, "BANHEIRO 1", 3.0, 8.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 0);
+    insertInStack(&pilhaDeComodos, "QUARTO 1", 12.0, 30.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 80 );
     insertInStack(&pilhaDeComodos, "AREA DE SERVIÇO", 6.0, 10.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 30);
     insertInStack(&pilhaDeComodos, "COZINHA", 10.0, 15.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 50);
     insertInStack(&pilhaDeComodos, "SALA DE JANTAR", 15.0, 20.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 60);
     insertInStack(&pilhaDeComodos, "BANHEIRO SOCIAL", 3.0, 8.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 110);
-    insertInStack(&pilhaDeComodos, "SALA DE ESTAR", 30.0, 40.0, 550, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 135);
+    insertInStack(&pilhaDeComodos, "SALA DE ESTAR", 30.0, 40.0, 0, areaScreen, (raioDaCasa * 50) - 5, 1.57*50, -1, 135);
                                                             //   L largura na tela L traço tela      L angulo com o circulo
                                                                                             //  L regula a distancia da segunda linha, apenas valores negativos
     return pilhaDeComodos; //Retorna a pilha já preenchida com os comodos
@@ -79,7 +79,7 @@ Stack initStack (Stack pilhaDeComodos, double raioDaCasa) {//Inicializa a pilha 
 listFloor * getTear(double AreaTear, double raioDaCasa)//Adiciona a escada em cada andar
 {
     listFloor * aux = malloc(sizeof(listFloor));
-    strcpy(aux->comodo.name, "ESCADA");
+    strcpy(aux->comodo.name, "SALA DA ESCADA");
     aux->comodo.areaMax = AreaTear;
     aux->comodo.areaMin = AreaTear;
     aux->comodo.areaScreen = AreaTear;
@@ -172,7 +172,7 @@ void printStack(Stack room)
     printf("\n");
 }
 
-Room drawRoom(Room comodo, int level) //Função que desenha o cômodo
+Room drawRoom(Room comodo, int level, double lastAngle) //Função que desenha o cômodo
 {
     int wall_pos = comodo.wall; //Recebe a posição da parede
     int option, f, pos = 0;
@@ -220,34 +220,56 @@ Room drawRoom(Room comodo, int level) //Função que desenha o cômodo
     glEnd();
 
     
-    glBegin(GL_LINE_LOOP); // traço vermelho superior
-    glColor3f(1.0, 0.0, 0.0);
-    glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 - 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 - 20) / 2));
-    glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 + 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 + 20) / 2));
-    glEnd();
+    // glBegin(GL_LINE_LOOP); // traço vermelho superior
+    // glColor3f(1.0, 0.0, 0.0);
+    // glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 - 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 - 20) / 2));
+    // glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 + 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 + 20) / 2));
+    // glEnd();
 
     double x3 =(-2*m*equ + option*sqrt(4*m*m*equ*equ - 4*(1 + m*m)*(equ*equ - pow((comodo.r1 +comodo.r2 - 20)/2,2))))/(2*(1 + m*m));
     double y3 = reta(m, x3, equ);
     double x4 = (-2*m*equ + option*sqrt(4*m*m*equ*equ - 4*(1 + m*m)*(equ*equ - pow((comodo.r1 +comodo.r2 + 20)/2,2))))/(2*(1 + m*m));
     double y4 = reta(m, x4, equ);
 
-     glBegin(GL_LINE_LOOP);//Segundo traço vermelho
+    // glBegin(GL_LINE_LOOP);//Segundo traço vermelho
+    //     glColor3f(1.0, 0.0, 0.0);
+    //     glVertex2f(x3, y3);
+    //     glVertex2f(x4, y4);
+    // glEnd();
+
+    glBegin(GL_QUADS);//preenche a porta
         glColor3f(1.0, 0.0, 0.0);
-        glVertex2f(x3, y3);
         glVertex2f(x4, y4);
+        glVertex2f(x3, y3);
+        glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 - 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 - 20) / 2));
+        glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 + 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 + 20) / 2));
     glEnd();
 
-    double MidAngle = (comodo.angle/2) * M_PI/180;
+    double MidAngle = (comodo.angle/2) * M_PI/180; // meio do angulo em rad
    
     double Xtext = (cos(MidAngle) * (comodo.r1 + comodo.r2)/2);
     double Ytext = (sin(MidAngle) * (comodo.r1 + comodo.r2)/2);
 
-    printComodo(Xtext, Ytext, comodo.name, comodo.areaScreen,level, true);
-    printComodo(-50, -300, comodo.name, comodo.areaScreen, level, false);//Imprime o andar
-    
-    glColor3f(0.6f, 1.0f, 0.8f);
-    _draw_arc(comodo.angle, comodo.angle+1,comodo.r1, 20);
+    // printComodo(Xtext, Ytext, comodo.name, comodo.areaScreen,level, true);
 
+
+    double anguloDoFinalDoComodo = (comodo.areaScreen * 360) / (M_PI * comodo.r1 * comodo.r1);
+
+
+    glColor3f(1.0, 0.0, 1.0); //O desenho das elipses é feito com base na geometria euclidiana
+    GLfloat radius = comodo.r1;
+
+    glBegin(GL_LINE_STRIP);
+
+        for(double i = (((comodo.angle + anguloDoFinalDoComodo) / 2) - ((180 * 30) / (M_PI * comodo.r1))); i < ((comodo.angle + anguloDoFinalDoComodo) / 2) + ((180 * 30) / (M_PI * comodo.r1)); i += 0.005) {
+            GLfloat angle = i * M_PI/ 180.0; // Converte graus para radianos
+            glBegin(GL_LINE_LOOP);
+            glVertex2f(0 + radius * cos(angle), 0 + radius * sin(angle));
+            glVertex2f(0 + (radius + 5) * cos(angle), 0 + (radius + 5) * sin(angle));
+            glEnd();
+        }
+
+    glEnd();
 
     return comodo;
 }

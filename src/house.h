@@ -38,7 +38,7 @@ typedef struct pisos {
 void insertInStack (Stack *, char *, double , double, double , double , double , double , int , double );
 Stack initStack (Stack, double);
 Room newRoom(char * name, double min, double max, double area, double areaScreen, double raioOne, double raioTwo, int wall_pos, double angulo);
-Room drawRoom(Room , int);
+Room drawRoom(Room , int, double);
 void printStack(Stack );
 listFloor * getRoom(Room);
 void AddFloor(Stack sector, Piso floor[],double AreaTear, double AreaMax, int *, double);

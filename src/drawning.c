@@ -71,6 +71,9 @@ void WelcomeScreen()
             "\n\t-----------------------------\n");
 
 }
+void clearScreen(){
+    system("clear || cls");
+}
 
 void AddZoom()//Função que habilita o zoom
 {
@@ -105,35 +108,6 @@ void drawName(float x, float y, char * string)//Função ainda não testada para
         glPopMatrix();
 }
 
-void _draw_arc(float angle_start, float angle_end, float radius, int num_segments)
-{
-
-    float theta = (angle_end - angle_start) / (float)num_segments;
-    float tangetial_factor = tan(theta);
-    float radial_factor = cos(theta);
-
-    float x = radius * cos(angle_start);
-    float y = radius * sin(angle_start);
-
-    glBegin(GL_LINE_STRIP);
-    glColor3f(1.6, 1.0, 0.0);
-    for(int i = 0; i <= num_segments; i++)
-    {
-        glVertex2f(x, y);
-
-        float tx = -y;
-        float ty = x;
-
-        x += tx * tangetial_factor;
-        y += ty * tangetial_factor;
-
-        x *= radial_factor;
-        y *= radial_factor;
-    }
-    glEnd();
-}
-
-
 void MakeElipse(GLfloat x, GLfloat y, GLfloat radius)//Principal função para o desenho das elipses
 {
 
@@ -164,15 +138,13 @@ void MakeBackground(float x, float y, float r, int numPontos) {//Função que de
 
 }
 
-void printComodo(double Xtext, double Ytext, char * name, double area, int level, bool key)//Função para printar o nome do comodo
+void printComodo(double Xtext, double Ytext, char * name,  double area, int level, bool key)//Função para printar o nome do comodo
 {
     char frase[50];
-    char andar[12][30] = {"Primeiro andar", "Segundo andar", "Terceiro andar", "Quarto andar", "Quinto andar", "Sexto andar", "Setimo andar", "Oitavo andar", "Nono andar", "Decimo andar", "Decimo primeiro andar", "Decimo segundo andar"};
     if(key)sprintf(frase, "%s %.2f m²",name, area);
         glColor3f(0.0, 0.0, 0.0);
         glRasterPos2f(Xtext, Ytext); // Define a posição para começar a desenhar a string
         if(key)glutBitmapString(GLUT_BITMAP_8_BY_13, frase); // Imprime a string
-        if(not key)glutBitmapString(GLUT_BITMAP_8_BY_13, andar[level]); // Imprime a string
     glFlush();
 }
 
@@ -185,15 +157,6 @@ void DrawWhitePlane(double xOne, double yOne, double xTwo, double yTwo)
     glEnd();
 }
 
-void makeDoor (Room comodo) {
-    glBegin(GL_LINE_LOOP);
-    glColor3f(0.0, 1.0, 0.0);
-
-    glVertex2f(comodo.wallp[0][0], comodo.wallp[0][1]);
-    glVertex2f(comodo.wallp[1][0], comodo.wallp[1][1]);
-
-    glEnd();
-}
 
 void MakeRoom(listFloor * comodo, GLfloat x, GLfloat y, int level, GLfloat radius, double raioDaCasa, char orientacao)//Função que desenha o andar junto de cada cômodo
 {
@@ -211,18 +174,44 @@ void MakeRoom(listFloor * comodo, GLfloat x, GLfloat y, int level, GLfloat radiu
     if (orientacao == '1') nextAngle = 359.999;
     if (orientacao == '2') nextAngle = 179.999;
 
-
-    MakeElipse(x, y, raioDaCasa * 50);// varia a parede externa conforme o angulo
+    MakeElipse(x, y, raioDaCasa * 50);// varia a parede externa conforme a area
     MakeElipse(x, y, (raioDaCasa * 50) - 5);
     MakeElipse(x, y, (1.57*50));// mantem a escada constante
     MakeElipse(x, y, (1.57*50)-5);
-    
+
     while (aux)
     {
-        aux->comodo = drawRoom(aux->comodo, level);
+        if (level == 0) {
+            if (!strcmp("SALA DA ESCADA", aux->comodo.name)) {
+                radius = aux->comodo.r1;
+                
+                double anguloInicial = nextAngle;
+
+                double anguloFinal = (aux->comodo.areaScreen * 360) / (M_PI * raioDaCasa * raioDaCasa);
+                anguloFinal += anguloInicial;
+
+                glBegin(GL_LINE_STRIP);
+                    glColor3f(1.0, 0.0, 0.0);
+                    for(double i = (((anguloInicial + anguloFinal) / 2) - ((180 * 13) / (M_PI * aux->comodo.r1))); i < ((anguloInicial + anguloFinal) / 2) + ((180 * 13) / (M_PI * aux->comodo.r1)); i += 0.0005) {
+                        GLfloat angle = i * M_PI/ 180.0; // Converte graus para radianos
+                        glBegin(GL_LINE_LOOP);
+                            glVertex2f(0 + radius * cos(angle), 0 + radius * sin(angle));
+                            glVertex2f(0 + (radius + 5) * cos(angle), 0 + (radius + 5) * sin(angle));
+                        glEnd;
+                    }
+
+                glEnd();
+            }
+        }
+
+
+
+
+
         aux->comodo.angle = nextAngle;
-        //printf("comodo: %s, wallpos: %lf %lf %lf %lf\n\n", aux.comodo.name, aux.comodo.wallp[0][0], aux.comodo.wallp[0][1], aux.comodo.wallp[1][0], aux.comodo.wallp[1][1]);
-        nextAngle += (aux->comodo.areaScreen * 360) / (M_PI * raioDaCasa * raioDaCasa); // angulo necessario para imprimar a area
+        aux->comodo = drawRoom(aux->comodo, level, nextAngle);
+        nextAngle += (aux->comodo.areaScreen * 360) / (M_PI * raioDaCasa * raioDaCasa); // angulo necessario para imprimir a area
+
         aux = aux->next;
     }
 }
