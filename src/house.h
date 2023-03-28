@@ -16,7 +16,6 @@ typedef struct Room{
     int wall;
     double cobert[4][2]; 
     double wallp[2][2]; 
-    //struct Room * next;
 
 } Room;
 
@@ -37,12 +36,12 @@ typedef struct pisos {
 } Piso;
 
 void insertInStack (Stack *, char *, double , double, double , double , double , double , int , double );
-Stack initStack (Stack);
+Stack initStack (Stack, double);
 Room newRoom(char * name, double min, double max, double area, double areaScreen, double raioOne, double raioTwo, int wall_pos, double angulo);
-void drawRoom(Room );
+Room drawRoom(Room , int);
 void printStack(Stack );
 listFloor * getRoom(Room);
-void AddFloor(Stack sector, Piso floor[],double AreaTear, double AreaMax, int *);
+void AddFloor(Stack sector, Piso floor[],double AreaTear, double AreaMax, int *, double);
 
 
 #endif // HOUSE_H

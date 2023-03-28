@@ -2,6 +2,8 @@
 #include <math.h>
 #include "drawning.h"
 #include "house.h"
+#include <stdbool.h>
+#include <iso646.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -19,43 +21,45 @@ void SleepSO(int tempoMS)
 #endif        
 }
 
+#define WALL 0.15
+
 void loadScreen () //Tela de carregamento
 {
     for(int i = 0; i < 2; i++)
     {
         system("clear || cls");
         printf("Carregando programa\n");
-        printf("o------");
+        printf("o------\n");
         SleepSO(125);
 
         system("clear || cls");;
         printf("Carregando programa\n");
-        printf("-o-----");
+        printf("-o-----\n");
         SleepSO(125);
 
         system("clear || cls");
         printf("Carregando programa\n");
-        printf("--o----");
+        printf("--o----\n");
         SleepSO(125);
 
         system("clear || cls");
         printf("Carregando programa\n");
-        printf("---o---");
+        printf("---o---\n");
         SleepSO(125);
 
         system("clear || cls");
         printf("Carregando programa\n");
-        printf("----o--");
+        printf("----o--\n");
         SleepSO(125);
         
         system("clear || cls");
         printf("Carregando programa\n");
-        printf("-----o-");
+        printf("-----o-\n");
         SleepSO(125);
         
         system("clear || cls");
         printf("Carregando programa\n");
-        printf("------o");
+        printf("------o\n");
         SleepSO(125);
     }
 }
@@ -101,6 +105,35 @@ void drawName(float x, float y, char * string)//Função ainda não testada para
         glPopMatrix();
 }
 
+void _draw_arc(float angle_start, float angle_end, float radius, int num_segments)
+{
+
+    float theta = (angle_end - angle_start) / (float)num_segments;
+    float tangetial_factor = tan(theta);
+    float radial_factor = cos(theta);
+
+    float x = radius * cos(angle_start);
+    float y = radius * sin(angle_start);
+
+    glBegin(GL_LINE_STRIP);
+    glColor3f(1.6, 1.0, 0.0);
+    for(int i = 0; i <= num_segments; i++)
+    {
+        glVertex2f(x, y);
+
+        float tx = -y;
+        float ty = x;
+
+        x += tx * tangetial_factor;
+        y += ty * tangetial_factor;
+
+        x *= radial_factor;
+        y *= radial_factor;
+    }
+    glEnd();
+}
+
+
 void MakeElipse(GLfloat x, GLfloat y, GLfloat radius)//Principal função para o desenho das elipses
 {
 
@@ -131,7 +164,38 @@ void MakeBackground(float x, float y, float r, int numPontos) {//Função que de
 
 }
 
-void MakeRoom(listFloor * comodo, GLfloat x, GLfloat y, GLfloat radius)//Função que desenha o andar junto de cada cômodo
+void printComodo(double Xtext, double Ytext, char * name, double area, int level, bool key)//Função para printar o nome do comodo
+{
+    char frase[50];
+    char andar[12][30] = {"Primeiro andar", "Segundo andar", "Terceiro andar", "Quarto andar", "Quinto andar", "Sexto andar", "Setimo andar", "Oitavo andar", "Nono andar", "Decimo andar", "Decimo primeiro andar", "Decimo segundo andar"};
+    if(key)sprintf(frase, "%s %.2f m²",name, area);
+        glColor3f(0.0, 0.0, 0.0);
+        glRasterPos2f(Xtext, Ytext); // Define a posição para começar a desenhar a string
+        if(key)glutBitmapString(GLUT_BITMAP_8_BY_13, frase); // Imprime a string
+        if(not key)glutBitmapString(GLUT_BITMAP_8_BY_13, andar[level]); // Imprime a string
+    glFlush();
+}
+
+void DrawWhitePlane(double xOne, double yOne, double xTwo, double yTwo)
+{
+    glColor3f(1.0, 1.0, 1.0);
+    glBegin(GL_LINE_LOOP);
+        glVertex2f(xOne,yOne);
+        glVertex2f(xTwo, yTwo);
+    glEnd();
+}
+
+void makeDoor (Room comodo) {
+    glBegin(GL_LINE_LOOP);
+    glColor3f(0.0, 1.0, 0.0);
+
+    glVertex2f(comodo.wallp[0][0], comodo.wallp[0][1]);
+    glVertex2f(comodo.wallp[1][0], comodo.wallp[1][1]);
+
+    glEnd();
+}
+
+void MakeRoom(listFloor * comodo, GLfloat x, GLfloat y, int level, GLfloat radius, double raioDaCasa, char orientacao)//Função que desenha o andar junto de cada cômodo
 {
 
     MakeBackground(x, y, radius + 10, 160);//Chama a função de backgound
@@ -140,23 +204,25 @@ void MakeRoom(listFloor * comodo, GLfloat x, GLfloat y, GLfloat radius)//Funçã
 
     listFloor * aux = comodo;
 
+    double nextAngle;
+
+    if (orientacao == '3') nextAngle = 269.999;
+    if (orientacao == '4') nextAngle = 89.999;
+    if (orientacao == '1') nextAngle = 359.999;
+    if (orientacao == '2') nextAngle = 179.999;
+
+
+    MakeElipse(x, y, raioDaCasa * 50);// varia a parede externa conforme o angulo
+    MakeElipse(x, y, (raioDaCasa * 50) - 5);
+    MakeElipse(x, y, (1.57*50));// mantem a escada constante
+    MakeElipse(x, y, (1.57*50)-5);
+    
     while (aux)
     {
-        drawRoom(aux->comodo);
+        aux->comodo = drawRoom(aux->comodo, level);
+        aux->comodo.angle = nextAngle;
+        //printf("comodo: %s, wallpos: %lf %lf %lf %lf\n\n", aux.comodo.name, aux.comodo.wallp[0][0], aux.comodo.wallp[0][1], aux.comodo.wallp[1][0], aux.comodo.wallp[1][1]);
+        nextAngle += (aux->comodo.areaScreen * 360) / (M_PI * raioDaCasa * raioDaCasa); // angulo necessario para imprimar a area
         aux = aux->next;
     }
-    
-
-    // if(comodoOne != NULL)
-    //     drawRoom(comodoOne);
-    //  if(comodoTwo != NULL)
-    //     drawRoom(comodoTwo);
-    //  if(comodoThree != NULL)
-    //     drawRoom(comodoThree);
-
-    MakeElipse(x, y, radius);// paredes andar ou terreo
-    MakeElipse(x, y, radius - 5);// paredes andar ou terreo
-    MakeElipse(x, y, (radius*0.4));// paredes andar ou terreo
-    MakeElipse(x, y, (radius*0.4)-5);// paredes andar ou terreo
 }
-

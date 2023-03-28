@@ -18,7 +18,7 @@ double TEAR = 7.7;
 
 //Em função do problema das bibliotecas, precisei chama-las novamente nessa sessão
 void MakeElipse(GLfloat, GLfloat, GLfloat);
-void MakeRoom( listFloor *, GLfloat, GLfloat, GLfloat);
+void MakeRoom(listFloor *, GLfloat, GLfloat, int, GLfloat, double, char);
 void MakeBackground(float x, float y, float r, int numPontos);
 void AddZoom(void);void MoreZoom(void);void LessZoom(void);
 void WelcomeScreen();
@@ -30,8 +30,8 @@ double AreaCircle(double , double );
 //variáveis globais criadas para armazenar os valores de largura, comprimento, sol e raio da imagem
 int level = 0;
 double largura = 0, comprimento = 0;
-int sun = 0;
-double AreaTear;
+char sun = 0;
+double AreaDoComodoDaEscada = 7.7;
 Piso Home[12];
 Stack sector;
 double AreaMax;
@@ -43,10 +43,10 @@ void printFloor(Piso Home[], int tam)
     int i = 0;
     while(i < tam){
         if(Home[i].empty == false){
-            printf("Andar %d: ", i+1);
+            printf("Andar %d:", i+1);
             listFloor * aux = Home[i].firstComodo;
             while(aux){
-                printf("%s ", aux->comodo.name);
+                printf(" %s |", aux->comodo.name);
                 aux = aux->next;
             }
             printf("\n");
@@ -65,7 +65,7 @@ void Display() //Função de display
     glColor3f(0.0, 0.0, 0.0);
 
     listFloor * aux = Home[level].firstComodo;
-    MakeRoom(aux,0, 0, 150);
+    MakeRoom(aux,0, 0, 300,level, Raio, sun);
 
     glFlush(); 
 }
@@ -126,25 +126,24 @@ void input()//Função para a entrada de largura, comprimento da área e nascer 
                     "(4) - Oeste\n\n");
 
             printf("Escolha: ");
-            scanf("%d", &sun);
-            if(sun != 4 and sun != 3 and sun != 2 and sun != 1) sun = 0;
+            scanf(" %c", &sun);
+        } while (sun > '4' || sun < '1');
 
-        } while (not sun);
 
         loadScreen ();//Tela de carregamento, clássica
+        system("clear || cls");
         
-        AreaTear = Min(largura, comprimento);
-        Raio = AreaCircle(largura, comprimento);
-        AreaTear = (M_PI * Raio) - (7.7)/2; // - (M_PI/2))*AreaTear;
-        printf("Area Tear: %.2lf\n", AreaTear); //Raio em função das entradas dadas, crucial para definir a área exibida na tela
-        AreaMax = (Raio * Raio * M_PI) - TEAR;
-
-        sector = initStack(sector);
+        AreaDoComodoDaEscada = Min(largura, comprimento); // menor lado
+        Raio = AreaCircle(largura, comprimento); // raio da casa;
+        AreaDoComodoDaEscada = (M_PI * Raio) - (7.7)/2; // area do comodo da escada
+        AreaMax = (Raio * Raio * M_PI) - TEAR; // area da coroa
+        printf("Area da Casa gerada: %.2lf metro quadrados\n", AreaMax); //Raio em função das entradas dadas, crucial para definir a área exibida na tela
+        
+        sector = initStack(sector, Raio);
         printStack(sector);
-
-        AddFloor(sector, Home, AreaTear, AreaMax, &NumFloor);
-
-        printFloor(Home, ++NumFloor);
+        AddFloor(sector, Home, AreaDoComodoDaEscada, AreaMax, &NumFloor, Raio);
+        ++NumFloor;
+        printFloor(Home, NumFloor);
 }
 
 int main(int argc, char **argv) //Cérebro
@@ -155,7 +154,7 @@ int main(int argc, char **argv) //Cérebro
   glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
   glutInitWindowSize(1200, 720); 
   glutCreateWindow("Planta baixa em circunferência");
-  glClearColor(0.0, 0.0, 0.0, 0.0); 
+  glClearColor(1.0, 1.0, 1.0, 0.0); 
   gluOrtho2D(-600, 600, -360, 360); 
   glutDisplayFunc(Display);
   glutReshapeFunc(reshape);

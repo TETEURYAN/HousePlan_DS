@@ -42,6 +42,8 @@ double Min(double a, double b)
     return (a <= b) ? a : b; 
 }
 
+
+
 double AreaCircle(double largura, double comprimento)
 {
     double min = Min(largura, comprimento);
