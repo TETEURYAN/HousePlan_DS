@@ -1,21 +1,36 @@
-#include "calcs.h"
-#include "drawning.h"
 #include "house.h"
-#include <GL/freeglut.h>
-#include <math.h>
-#include <string.h>
-#include <stdbool.h>
-#include <iso646.h>
-#include <stdio.h>
 
 #define WALL 0.15
 #define MAXFLOOR 12
 
-double coef(double, double, double, double);
-double reta(double, double, double);
-double AreaCircle(double largura, double comprimento);
-void printComodo(double , double , char *, double,int, bool);
-void _draw_arc(float , float , float , int );
+void printStack(Stack room)         
+{   
+    printf("Lista de comodos por nome: ");
+    for( int i = 0; i <= room.topo; i++)
+    {
+        printf(" %s ", room.comodos[i].name);
+    }
+    printf("\n");
+}
+
+
+void printFloor(Piso Home[], int tam)
+{
+    int i = 0;
+    while(i < tam){
+        if(Home[i].empty == false){
+            printf("Andar %d:", i+1);
+            listFloor * aux = Home[i].firstComodo;
+            while(aux){
+                printf(" %s |", aux->comodo.name);
+                aux = aux->next;
+            }
+            printf("\n");
+            i++;
+            }
+        else printf("Andar %d: Vazio!\n", i+1),i++;  
+    }
+}
 
 listFloor * getRoom(Room exp)
 {
@@ -160,116 +175,4 @@ void AddFloor(Stack sector, Piso floor[],double AreaTear, double AreaMax, int * 
     floor[i+1].empty = false;
 
     *FloorNum = i+1;
-}
-
-void printStack(Stack room)         
-{   
-    printf("Lista de comodos por nome: ");
-    for( int i = 0; i <= room.topo; i++)
-    {
-        printf(" %s ", room.comodos[i].name);
-    }
-    printf("\n");
-}
-
-Room drawRoom(Room comodo, int level, double lastAngle) //Função que desenha o cômodo
-{
-    int wall_pos = comodo.wall; //Recebe a posição da parede
-    int option, f, pos = 0;
-    double dangle = 0, deg, text_pos[2], angulo;
-    double m, equ, x1, x2, y1, y2;
-    double raio = comodo.r2 + comodo.r1;
-
-    angulo = comodo.angle;
-
-
-    angulo += dangle;
-    deg = angulo * M_PI / 180;//Converte para radiano
-
-    comodo.cobert[pos][0] = cos(deg) * comodo.r1; comodo.cobert[pos++][1] = sin(deg) * comodo.r1;
-
-    glColor3f(0.0, 0.0, 0.0);
-    glBegin(GL_LINE_LOOP);//Desenha os pontos da primeira parede
-        glVertex2f(cos(deg) * comodo.r1, sin(deg) * comodo.r1);
-        glVertex2f(cos(deg) * comodo.r2, sin(deg) * comodo.r2);
-    glEnd();
-
-    x1 = comodo.cobert[wall_pos+1][0]; y1 = comodo.cobert[wall_pos+1][1];
-    x2 = comodo.cobert[wall_pos+2][0]; y2 = comodo.cobert[wall_pos+2][1];
-
-    option = (x1 >= 0) ? 1 : -1; //Caso o quadrante esteja negativo, o coeficiente angular será multiplicado por -1;
-    m = coef(x1, x2, y1, y2);
-
-    equ = y1 - m*x1;
-    equ = equ + wall_pos*option*(5*(sqrt(1 + m*m)));//distancia entre linhas paralelas em 5
-
-
-    //Magnitude de um vetor
-    x1 = (-2*m*equ + option*sqrt(4*m*m*equ*equ - 4*(1 + m*m)*(equ*equ - pow(comodo.r1,2))))/(2*(1 + m*m));
-    y1 = reta(m, x1, equ);
-    x2 = (-2*m*equ + option*sqrt(4*m*m*equ*equ - 4*(1 + m*m)*(equ*equ - pow(comodo.r2,2))))/(2*(1 + m*m));
-    y2 = reta(m, x2, equ);
-
-    //Armazenando a magnitude do vetor para a linha paralela
-    comodo.wallp[0][0] = x1; comodo.wallp[0][1] = y1;
-    comodo.wallp[1][0] = x2; comodo.wallp[1][1] = y2;
-
-    glBegin(GL_LINE_LOOP); // printa a linha parelela da parede, a de baixo
-        glVertex2f(x1, y1);
-        glVertex2f(x2, y2);
-    glEnd();
-
-    
-    // glBegin(GL_LINE_LOOP); // traço vermelho superior
-    // glColor3f(1.0, 0.0, 0.0);
-    // glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 - 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 - 20) / 2));
-    // glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 + 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 + 20) / 2));
-    // glEnd();
-
-    double x3 =(-2*m*equ + option*sqrt(4*m*m*equ*equ - 4*(1 + m*m)*(equ*equ - pow((comodo.r1 +comodo.r2 - 20)/2,2))))/(2*(1 + m*m));
-    double y3 = reta(m, x3, equ);
-    double x4 = (-2*m*equ + option*sqrt(4*m*m*equ*equ - 4*(1 + m*m)*(equ*equ - pow((comodo.r1 +comodo.r2 + 20)/2,2))))/(2*(1 + m*m));
-    double y4 = reta(m, x4, equ);
-
-    // glBegin(GL_LINE_LOOP);//Segundo traço vermelho
-    //     glColor3f(1.0, 0.0, 0.0);
-    //     glVertex2f(x3, y3);
-    //     glVertex2f(x4, y4);
-    // glEnd();
-
-    glBegin(GL_QUADS);//preenche a porta
-        glColor3f(1.0, 0.0, 0.0);
-        glVertex2f(x4, y4);
-        glVertex2f(x3, y3);
-        glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 - 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 - 20) / 2));
-        glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 + 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 + 20) / 2));
-    glEnd();
-
-    double MidAngle = (comodo.angle/2) * M_PI/180; // meio do angulo em rad
-   
-    double Xtext = (cos(MidAngle) * (comodo.r1 + comodo.r2)/2);
-    double Ytext = (sin(MidAngle) * (comodo.r1 + comodo.r2)/2);
-
-    // printComodo(Xtext, Ytext, comodo.name, comodo.areaScreen,level, true);
-
-
-    double anguloDoFinalDoComodo = (comodo.areaScreen * 360) / (M_PI * comodo.r1 * comodo.r1);
-
-
-    glColor3f(1.0, 0.0, 1.0); //O desenho das elipses é feito com base na geometria euclidiana
-    GLfloat radius = comodo.r1;
-
-    glBegin(GL_LINE_STRIP);
-
-        for(double i = (((comodo.angle + anguloDoFinalDoComodo) / 2) - ((180 * 30) / (M_PI * comodo.r1))); i < ((comodo.angle + anguloDoFinalDoComodo) / 2) + ((180 * 30) / (M_PI * comodo.r1)); i += 0.005) {
-            GLfloat angle = i * M_PI/ 180.0; // Converte graus para radianos
-            glBegin(GL_LINE_LOOP);
-            glVertex2f(0 + radius * cos(angle), 0 + radius * sin(angle));
-            glVertex2f(0 + (radius + 5) * cos(angle), 0 + (radius + 5) * sin(angle));
-            glEnd();
-        }
-
-    glEnd();
-
-    return comodo;
 }

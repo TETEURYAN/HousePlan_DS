@@ -1,32 +1,16 @@
 #include <GL/glut.h>
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <iso646.h>
 #include <math.h>
+
 #include "src/calcs.h"
 #include "src/drawning.h"
 #include "src/house.h"
 
-#ifdef _WIN32
-    #include <Windows.h>
-#else
-    #include <unistd.h>
-#endif
-
 #define MINIM 8.7
 double TEAR = 7.7;
-
-//Em função do problema das bibliotecas, precisei chama-las novamente nessa sessão
-void MakeElipse(GLfloat, GLfloat, GLfloat);
-void MakeRoom(listFloor *, GLfloat, GLfloat, int, GLfloat, double, char);
-void MakeBackground(float x, float y, float r, int numPontos);
-void AddZoom(void);void MoreZoom(void);void LessZoom(void);
-void WelcomeScreen();
-void loadScreen ();
-void SleepSO(int tempoMS);
-double Min(double a, double b);
-double AreaCircle(double , double );
-void clearScreen();
 
 //variáveis globais criadas para armazenar os valores de largura, comprimento, sol e raio da imagem
 int level = 0;
@@ -38,25 +22,6 @@ Stack sector;
 double AreaMax;
 double Raio;
 int NumFloor = 0;
-
-void printFloor(Piso Home[], int tam)
-{
-    int i = 0;
-    while(i < tam){
-        if(Home[i].empty == false){
-            printf("Andar %d:", i+1);
-            listFloor * aux = Home[i].firstComodo;
-            while(aux){
-                printf(" %s |", aux->comodo.name);
-                aux = aux->next;
-            }
-            printf("\n");
-            i++;
-            }
-        else printf("Andar %d: Vazio!\n", i+1),i++;  
-    }
-
-}
 
 void Display() //Função de display
 {

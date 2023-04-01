@@ -3,6 +3,7 @@
         "stdbool.h": "c",
         "stdio.h": "c",
         "iso646.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "unistd.h": "c"
     }
 }

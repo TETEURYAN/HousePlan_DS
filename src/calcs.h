@@ -1,7 +1,5 @@
-#ifdef CALCS_H
+#ifndef CALCS_H
 #define CALCS_H
-
-double (double)
 
 double area_coroa(double, double);
 
@@ -15,8 +13,8 @@ double reta(double, double, double );
 
 double coef(double, double, double, double );
 
-int Min(int , int);
+double Min(double , double);
 
-AreaCircle(double, double );
+double AreaCircle(double, double );
 
 #endif // CALCS_H
