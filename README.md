@@ -13,8 +13,11 @@ Members:
  </center>
  
  ## About
-  This project is based on the implementation of data structures in the construction of the floor plan of a house. This purpose is to improve knowledge of the different structures and their applications.
+  This project is based on the implementation of data structures in the construction of the floor plan of a circular house. This purpose is to improve knowledge of the different structures and their applications.
   
+## How to use?
+To generate a circular house, it is necessary to know the area of the length. Another basic concept of architecture is knowing the orientation of the sun, as the rooms have this preference due to the windows.
+  The program will have 3 inputs: terrain width and length and sun orientation.
 ## SO requirements
   OpenGL and GCC
   

@@ -1,7 +1,14 @@
 #ifndef HOUSE_H
 #define HOUSE_H
 
+#include <GL/freeglut.h>
+#include <GL/glut.h>
+#include <stdio.h>
+#include <string.h>
 #include<stdbool.h>
+#include <iso646.h>
+
+#include "calcs.h"
 
 typedef struct Room{
     char name[20];
@@ -35,13 +42,21 @@ typedef struct pisos {
     struct listFloor *firstComodo;
 } Piso;
 
-void insertInStack (Stack *, char *, double , double, double , double , double , double , int , double );
-Stack initStack (Stack, double);
-Room newRoom(char * name, double min, double max, double area, double areaScreen, double raioOne, double raioTwo, int wall_pos, double angulo);
-Room drawRoom(Room , int, double);
-void printStack(Stack );
-listFloor * getRoom(Room);
-void AddFloor(Stack sector, Piso floor[],double AreaTear, double AreaMax, int *, double);
 
+void printStack(Stack );
+
+void printFloor(Piso [], int);
+
+listFloor * getRoom(Room);
+
+Room newRoom(char *, double, double, double, double, double, double, int, double);
+
+void insertInStack (Stack *, char *, double , double, double , double , double , double , int , double );
+
+Stack initStack (Stack, double);
+
+void AddFloor(Stack, Piso [],double, double, int *, double);
+
+#include "drawning.h"
 
 #endif // HOUSE_H

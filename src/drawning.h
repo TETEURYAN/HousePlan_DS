@@ -1,21 +1,23 @@
-#ifdef DRAWNING_H
+#ifndef DRAWNING_H
 #define DRAWNING_H
 
-extern double IndexZoom;
-extern double Zoom;
+#include "house.h"
 
+extern double IndexZoom;
+extern GLfloat Zoom;
+
+//Functions
+void SleepSO(int);
+void loadScreen (void);
+void WelcomeScreen(void);
+void clearScreen(void);
 void AddZoom(void);
 void MoreZoom(void);
 void LessZoom(void);
-void _draw_arc(double , double , double , int );
-void printComodo(double Xtext, double Ytext, char * name, double area, int level, bool key);
-void DrawWhitePlane(double, double, double, double);
-void MakeElipse(GLfloat x, GLfloat y, GLfloat radius);
-void MakeRoom(listFloor *, GLfloat x, GLfloat y, int level, GLfloat radius, double);
-void WelcomeScreen();
-void loadScreen ();
-void clearScreen();
-void SleepSO(int tempoMS);
-void drawName(float x, float y, char * string);
+void drawName(float, float, char *);
+void MakeElipse(GLfloat, GLfloat, GLfloat);
+void printComodo(double, double, char *, double, int, bool );
+Room drawRoom(Room, int, double );
+void MakeRoom(listFloor *, GLfloat, GLfloat, int, GLfloat, double, char);
 
 #endif // DRAWNING_H
