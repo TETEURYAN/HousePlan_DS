@@ -2,7 +2,6 @@
 #define DRAWNING_H
 
 #include "house.h"
-
 extern double IndexZoom;
 extern GLfloat Zoom;
 
