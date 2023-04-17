@@ -8,9 +8,14 @@ extern GLfloat Zoom;
 
 //Functions
 void SleepSO(int);
+void printEffect(void);
+void firstInput();
 void loadScreen (void);
 void WelcomeScreen(void);
 void clearScreen(void);
+bool validHouse(double);
+void printOutput(void);
+void printHouseInfo(Stack, Piso *, double, int);
 void AddZoom(void);
 void MoreZoom(void);
 void LessZoom(void);

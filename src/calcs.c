@@ -35,12 +35,14 @@ double reta(double coef, double Xpoint, double equacao)
     return ((coef * Xpoint) + equacao);
 }
 
+double magnitude(double m, int guidance, double line, double raio){
+    return ((-2*m*line + guidance*sqrt(4*m*m*line*line - 4*(1 + m*m)*(line*line - pow(raio,2))))/(2*(1 + m*m)));
+}
+
 double Min(double a, double b)
 {
     return (a <= b) ? a : b; 
 }
-
-
 
 double AreaCircle(double largura, double comprimento)
 {

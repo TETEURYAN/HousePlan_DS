@@ -3,26 +3,33 @@
 #define WALL 0.15
 #define MAXFLOOR 12
 
-
 void printStack(Stack room)         
-{   
-    printf("\nPilha de comodos por prioridade: ");
+{  
+    printf("\n");
+    printEffect();
+    printf("            PILHA DE COMODOS POR PRIORIDADE\n");
+    printEffect();
+    printf("|");
     for( int i = 0; i <= room.topo; i++)
     {
         printf(" %s", room.comodos[i].name);
-        (i == room.topo) ? printf("\n") : printf(" |");
+        (i == room.topo) ? getchar() : printf(" |");
     }
     printf("\n");
+     printEffect();
+    printf("\n");
 }
-
 
 void printFloor(Piso Home[], int tam)
 {
     int i = 0;
     printf("\n");
+    printEffect();
+    printf("                       ANDARES\n");
+    printEffect();
     while(i < tam){
         if(Home[i].empty == false){
-            printf("Andar %d:", i+1);
+            printf("| Andar %d:", i+1);
             listFloor * aux = Home[i].firstComodo;
             while(aux){
                 printf(" %s DE %.2lf M2", aux->comodo.name, aux->comodo.areaScreen);
@@ -31,6 +38,7 @@ void printFloor(Piso Home[], int tam)
             }printf("\n"),i++;}
         else printf("Andar %d: Vazio!\n", i+1),i++;  
     }
+    printEffect();
 }
 
 listFloor * getRoom(Room exp)

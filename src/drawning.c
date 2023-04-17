@@ -1,5 +1,5 @@
 #include "drawning.h"
-
+#include <limits.h>
 //Global variables
 double IndexZoom = 1.0f;
 GLfloat Zoom = 0.1;
@@ -24,56 +24,150 @@ void SleepSO(int tempoMS)
 #endif        
 }
 
+void printEffect(){
+    printf("========================================================\n");
+}
+
 void loadScreen () //Tela de carregamento
 {
     for(int i = 0; i < 2; i++)
     {
         system("clear || cls");
-        printf("Carregando programa\n");
-        printf("o------\n");
-        SleepSO(125);
-
-        system("clear || cls");;
-        printf("Carregando programa\n");
-        printf("-o-----\n");
+        printEffect();
+        printf("                Carregando programa\n");
+        printf("                      o------\n");
+        printEffect();
         SleepSO(125);
 
         system("clear || cls");
-        printf("Carregando programa\n");
-        printf("--o----\n");
+        printEffect();
+        printf("                Carregando programa\n");
+        printf("                      -o-----\n");
+        printEffect();
         SleepSO(125);
 
         system("clear || cls");
-        printf("Carregando programa\n");
-        printf("---o---\n");
+        printEffect();
+        printf("                Carregando programa\n");
+        printf("                      --o----\n");
+        printEffect();
         SleepSO(125);
 
         system("clear || cls");
-        printf("Carregando programa\n");
-        printf("----o--\n");
+        printEffect();
+        printf("                Carregando programa\n");
+        printf("                      ---o---\n");
+        printEffect();
+        SleepSO(125);
+
+        system("clear || cls");
+        printEffect();
+        printf("                Carregando programa\n");
+        printf("                      ----o--\n");
+        printEffect();
         SleepSO(125);
         
         system("clear || cls");
-        printf("Carregando programa\n");
-        printf("-----o-\n");
+        printEffect();
+        printf("                Carregando programa\n");
+        printf("                      -----o-\n");
+        printEffect();
         SleepSO(125);
         
         system("clear || cls");
-        printf("Carregando programa\n");
-        printf("------o\n");
+        printEffect();
+        printf("                Carregando programa\n");
+        printf("                      ------o\n");
+        printEffect();
         SleepSO(125);
     }
 }
 
+
+void printTeam(){
+    printEffect();
+    printf("  UM PROJETO DE MATHEUS RYAN, CAIO CESAR E JOAO GOMES\n");
+}
+
 void WelcomeScreen()
 {
-     printf("\n\t-----------------------------\n"
-            "\n\tPROJETO DE ESTRUTURA DE DADOS\n"
-            "\n\t-----------------------------\n");
+    printTeam();
+    printEffect();
+    printf("██████╗  ██║     ███████╗  ████═╗ ██║ ████████╗ ███████╗\n");
+    printf("██╔══██╗ ██║     ██╔══██║  ██║ ██║██║ ╚══██╔══╝ ██╔══██║\n");
+    printf("██╔══██╗ ██║     ███████║  ██║ ██║██║    ██║    ███████║\n");
+    printf("██████╔  ██║     ██╔══██║  ██║  ████║    ██║    ██╔══██║\n");
+    printf("██╔═══╝  ██║     ██║  ██║  ██║   ███║    ██║    ██║  ██║\n");
+    printf("██║      ██████╗ ██║  ██║  ██║    ██║    ██║    ██║  ██║\n");
+    printf("╚═╝      ╚═════╝ ╚═╝  ╚═╝  ╚═╝    ╚═╝    ╚═╝    ╚═╝  ╚═╝\n");
 
-}
+    printf("      ██████╗   ███████╗ ██║  ██║   ██║  ███████╗       \n");
+    printf("      ██╔══██╗  ██╔══██║ ██║   ██║ ██║   ██╔══██║       \n");
+    printf("      ██████═╝  ███████║ ██║    ████║    ███████║       \n");
+    printf("      ██╔═══██╗ ██╔══██║ ██║    ████║    ██╔══██║       \n");
+    printf("      ██║   ██║ ██║  ██║ ██║   ██║  ██║  ██║  ██║       \n");
+    printf("      ███████║  ██║  ██║ ██║  ██║    ██║ ██║  ██║       \n");
+    printf("      ╚══════╝  ╚═╝  ╚═╝ ╚═╝  ╚═╝    ╚═╝ ╚═╝  ╚═╝       \n");
+    printEffect();
+}   
 void clearScreen(){
     system("clear || cls");
+}
+
+void printHouseInfo(Stack stack, Piso * Home, double AreaMax, int NumFloor) {
+    printEffect();
+    printf("|                 CASA GERADA COM SUCESSO              |\n");
+    printEffect();
+    printf("| Area: %.2lf metros quadrados                         |\n", AreaMax);
+    printf("| Andares: %i                                           |\n", NumFloor);
+    printEffect();
+    printf("\n");
+}
+
+void printChoose(){
+    printf("\t(1) - Inserir valores da casa\n");
+    printf("\t(2) - Sair do programa\n"); 
+}
+
+bool validOP(int op){
+    return (op == 1 or op == 2);
+}
+
+bool validHouse(double value){
+    double min = 8.7;
+    return (value > min);
+}
+
+void printOutput(){
+        clearScreen();
+        WelcomeScreen();    
+}
+
+void firstInput(){
+    
+    int op = INT_MAX;
+    do
+    {
+        printOutput();
+
+        printf("OPCOES: (O PROGRAMA ACEITARA APENAS VALORES VALIDOS)\n");
+        printEffect();
+        printChoose();
+        printEffect();
+        printf("DIGITE SUA ESCOLHA: ");
+        
+        scanf("%d", &op);
+
+        if(op == 2){
+            clearScreen();
+            printEffect();
+            printf("OBRIGADO POR USAR O PROGRAMA!\n");
+            printEffect();
+            exit(0);
+        }
+        
+    } while (not validOP(op));
+    
 }
 
 void AddZoom()//Função que habilita o zoom
@@ -96,6 +190,10 @@ void LessZoom()//Função que diminui a escala de zoom
     else if (IndexZoom < 0) IndexZoom = 0;
 }
 
+bool isFloorOne(int level){
+    return (level == 0);
+}
+
 void drawName(float x, float y, char * string)//Função ainda não testada para a exibição de strings na tela
 {
     float factor = 0.15;
@@ -109,9 +207,31 @@ void drawName(float x, float y, char * string)//Função ainda não testada para
         glPopMatrix();
 }
 
+void drawLadderDoor(Room comodo, double raioDaCasa, double nextAngle){
+    if (not strcmp("SALA DA ESCADA", comodo.name)) {
+        double radius = comodo.r1;
+                
+        double anguloInicial = nextAngle;
+
+        double anguloFinal = (comodo.areaScreen * 360) / (M_PI * raioDaCasa * raioDaCasa);
+        anguloFinal += anguloInicial;
+
+        glBegin(GL_LINE_STRIP);
+            glColor3f(1.0, 0.0, 0.0);
+            for(double i = (((anguloInicial + anguloFinal) / 2) - ((180 * 13) / (M_PI * comodo.r1))); i < ((anguloInicial + anguloFinal) / 2) + ((180 * 13) / (M_PI * comodo.r1)); i += 0.0005) {
+                GLfloat angle = i * M_PI/ 180.0; // Converte graus para radianos
+                glBegin(GL_LINE_LOOP);
+                    glVertex2f(0 + radius * cos(angle), 0 + radius * sin(angle));
+                    glVertex2f(0 + (radius + 5) * cos(angle), 0 + (radius + 5) * sin(angle));
+                glEnd();
+            }
+
+        glEnd();
+    }
+}
+
 void MakeElipse(GLfloat x, GLfloat y, GLfloat radius)//Principal função para o desenho das elipses
 {
-
     glBegin(GL_LINE_LOOP);
         for(int i=0; i<360; i++) {
             glColor3f(0.0, 0.0, 0.0); //O desenho das elipses é feito com base na geometria euclidiana
@@ -168,7 +288,6 @@ Room drawRoom(Room comodo, int level, double lastAngle) //Função que desenha o
 
     angulo = comodo.angle;
 
-
     angulo += dangle;
     deg = angulo * M_PI / 180;//Converte para radiano
 
@@ -189,11 +308,11 @@ Room drawRoom(Room comodo, int level, double lastAngle) //Função que desenha o
     equ = y1 - m*x1;
     equ = equ + wall_pos*option*(5*(sqrt(1 + m*m)));//distancia entre linhas paralelas em 5
 
-
     //Magnitude de um vetor
-    x1 = (-2*m*equ + option*sqrt(4*m*m*equ*equ - 4*(1 + m*m)*(equ*equ - pow(comodo.r1,2))))/(2*(1 + m*m));
+    
+    x1 = magnitude(m, option, equ, comodo.r1);
     y1 = reta(m, x1, equ);
-    x2 = (-2*m*equ + option*sqrt(4*m*m*equ*equ - 4*(1 + m*m)*(equ*equ - pow(comodo.r2,2))))/(2*(1 + m*m));
+    x2 = magnitude(m, option, equ, comodo.r2);
     y2 = reta(m, x2, equ);
 
     //Armazenando a magnitude do vetor para a linha paralela
@@ -205,16 +324,15 @@ Room drawRoom(Room comodo, int level, double lastAngle) //Função que desenha o
         glVertex2f(x2, y2);
     glEnd();
 
-    
     // glBegin(GL_LINE_LOOP); // traço vermelho superior
     // glColor3f(1.0, 0.0, 0.0);
     // glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 - 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 - 20) / 2));
     // glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 + 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 + 20) / 2));
     // glEnd();
 
-    double x3 =(-2*m*equ + option*sqrt(4*m*m*equ*equ - 4*(1 + m*m)*(equ*equ - pow((comodo.r1 +comodo.r2 - 20)/2,2))))/(2*(1 + m*m));
+    double x3 = magnitude(m, option, equ, (comodo.r1 +comodo.r2 - 20)/2);
     double y3 = reta(m, x3, equ);
-    double x4 = (-2*m*equ + option*sqrt(4*m*m*equ*equ - 4*(1 + m*m)*(equ*equ - pow((comodo.r1 +comodo.r2 + 20)/2,2))))/(2*(1 + m*m));
+    double x4 = magnitude(m, option, equ, (comodo.r1 +comodo.r2 + 20)/2);
     double y4 = reta(m, x4, equ);
 
     // glBegin(GL_LINE_LOOP);//Segundo traço vermelho
@@ -232,14 +350,12 @@ Room drawRoom(Room comodo, int level, double lastAngle) //Função que desenha o
     glEnd();
 
     double MidAngle = (comodo.angle/2) * M_PI/180; // meio do angulo em rad
-   
     double Xtext = (cos(MidAngle) * (comodo.r1 + comodo.r2)/2);
     double Ytext = (sin(MidAngle) * (comodo.r1 + comodo.r2)/2);
 
     printComodo(Xtext, Ytext, comodo.name, comodo.areaScreen,level, true);
 
     double anguloDoFinalDoComodo = (comodo.areaScreen * 360) / (M_PI * comodo.r1 * comodo.r1);
-
 
     glColor3f(1.0, 0.0, 1.0); //O desenho das elipses é feito com base na geometria euclidiana
     GLfloat radius = comodo.r1;
@@ -265,7 +381,6 @@ void MakeRoom(listFloor * comodo, GLfloat x, GLfloat y, int level, GLfloat radiu
     MakeBackground(x, y, radius + 10, 160);//Chama a função de backgound
     
     //Drawn the room selected
-
     listFloor * aux = comodo;
 
     double nextAngle;
@@ -282,27 +397,9 @@ void MakeRoom(listFloor * comodo, GLfloat x, GLfloat y, int level, GLfloat radiu
 
     while (aux)
     {
-        if (level == 0) {
-            if (!strcmp("SALA DA ESCADA", aux->comodo.name)) {
-                radius = aux->comodo.r1;
-                
-                double anguloInicial = nextAngle;
 
-                double anguloFinal = (aux->comodo.areaScreen * 360) / (M_PI * raioDaCasa * raioDaCasa);
-                anguloFinal += anguloInicial;
-
-                glBegin(GL_LINE_STRIP);
-                    glColor3f(1.0, 0.0, 0.0);
-                    for(double i = (((anguloInicial + anguloFinal) / 2) - ((180 * 13) / (M_PI * aux->comodo.r1))); i < ((anguloInicial + anguloFinal) / 2) + ((180 * 13) / (M_PI * aux->comodo.r1)); i += 0.0005) {
-                        GLfloat angle = i * M_PI/ 180.0; // Converte graus para radianos
-                        glBegin(GL_LINE_LOOP);
-                            glVertex2f(0 + radius * cos(angle), 0 + radius * sin(angle));
-                            glVertex2f(0 + (radius + 5) * cos(angle), 0 + (radius + 5) * sin(angle));
-                        glEnd;
-                    }
-
-                glEnd();
-            }
+        if (isFloorOne(level)) {
+                drawLadderDoor(aux->comodo, raioDaCasa, nextAngle);
         }
 
         aux->comodo.angle = nextAngle;
@@ -312,5 +409,3 @@ void MakeRoom(listFloor * comodo, GLfloat x, GLfloat y, int level, GLfloat radiu
         aux = aux->next;
     }
 }
-
-
