@@ -4,35 +4,6 @@
 #define MAXFLOOR 12
 
 
-void printStack(Stack room)         
-{   
-    printf("\nPilha de comodos por prioridade: ");
-    for( int i = 0; i <= room.topo; i++)
-    {
-        printf(" %s", room.comodos[i].name);
-        (i == room.topo) ? printf("\n") : printf(" |");
-    }
-    printf("\n");
-}
-
-
-void printFloor(Piso Home[], int tam)
-{
-    int i = 0;
-    printf("\n");
-    while(i < tam){
-        if(Home[i].empty == false){
-            printf("Andar %d:", i+1);
-            listFloor * aux = Home[i].firstComodo;
-            while(aux){
-                printf(" %s DE %.2lf M2", aux->comodo.name, aux->comodo.areaScreen);
-                (i == tam) ? printf("\n") : printf(" |"); 
-                aux = aux->next;
-            }printf("\n"),i++;}
-        else printf("Andar %d: Vazio!\n", i+1),i++;  
-    }
-}
-
 listFloor * getRoom(Room exp)
 {
     listFloor * aux = malloc(sizeof(listFloor));

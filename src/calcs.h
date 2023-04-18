@@ -15,6 +15,8 @@ double reta(double, double, double );
 
 double coef(double, double, double, double );
 
+double magnitude(double m, int option, double line, double raio);
+
 double Min(double , double);
 
 double AreaCircle(double, double );

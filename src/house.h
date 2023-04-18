@@ -43,10 +43,6 @@ typedef struct pisos {
 } Piso;
 
 
-void printStack(Stack );
-
-void printFloor(Piso [], int);
-
 listFloor * getRoom(Room);
 
 Room newRoom(char *, double, double, double, double, double, double, int, double);
@@ -56,7 +52,5 @@ void insertInStack (Stack *, char *, double , double, double , double , double ,
 Stack initStack (Stack, double);
 
 void AddFloor(Stack, Piso [],double, double, int *, double);
-
-#include "drawning.h"
 
 #endif // HOUSE_H
