@@ -44,13 +44,9 @@ typedef struct pisos {
 
 
 listFloor * getRoom(Room);
-
 Room newRoom(char *, double, double, double, double, double, double, int, double);
-
 void insertInStack (Stack *, char *, double , double, double , double , double , double , int , double );
-
 Stack initStack (Stack, double);
-
 void AddFloor(Stack, Piso [],double, double, int *, double);
 
 #endif // HOUSE_H

@@ -31,5 +31,4 @@ sudo chmod 777 install.sh
   
   ```bash
  sudo apt update
-
 ```

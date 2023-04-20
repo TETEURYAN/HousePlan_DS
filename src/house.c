@@ -4,8 +4,7 @@
 #define MAXFLOOR 12
 
 
-listFloor * getRoom(Room exp)
-{
+listFloor * getRoom(Room exp){//Insere valoes para a lista encadeada de comodos
     listFloor * aux = malloc(sizeof(listFloor));
     aux->comodo = exp;
     aux->next = NULL;
@@ -13,8 +12,7 @@ listFloor * getRoom(Room exp)
     return aux;
 }
 
-Room newRoom(char * name, double min, double max, double area, double areaScreen, double raioOne, double raioTwo, int wall_pos, double angulo) // Função que retorna um ponteiro com as informações alocadas para cada cômodo
-{
+Room newRoom(char * name, double min, double max, double area, double areaScreen, double raioOne, double raioTwo, int wall_pos, double angulo){ // Função que retorna um ponteiro com as informações alocadas para cada cômodo
     Room comodo;
 
     strcpy(comodo.name, name);//Copia o nome
@@ -32,11 +30,9 @@ Room newRoom(char * name, double min, double max, double area, double areaScreen
 
 }
 
-void insertInStack (Stack * pilhaDeComodos, char *name, double min, double max, double area, double areaScreen, double raioOne, double raioTwo, int wall_pos, double angulo)// Insere o comodo na pilha
-{
+void insertInStack (Stack * pilhaDeComodos, char *name, double min, double max, double area, double areaScreen, double raioOne, double raioTwo, int wall_pos, double angulo){// Insere o comodo na pilha
     pilhaDeComodos->topo += 1;
     pilhaDeComodos->comodos[pilhaDeComodos->topo] = newRoom( name, min, max,  area,  areaScreen,  raioOne,  raioTwo, wall_pos,  angulo);
-
 }
 
 Stack initStack (Stack pilhaDeComodos, double raioDaCasa) {//Inicializa a pilha de comodos
@@ -63,8 +59,8 @@ Stack initStack (Stack pilhaDeComodos, double raioDaCasa) {//Inicializa a pilha 
 }
 
 
-listFloor * getTear(double AreaTear, double raioDaCasa)//Adiciona a escada em cada andar
-{
+listFloor * getTear(double AreaTear, double raioDaCasa){//Adiciona a escada em cada andar
+
     listFloor * aux = malloc(sizeof(listFloor));
     strcpy(aux->comodo.name, "SALA DA ESCADA");
     aux->comodo.areaMax = AreaTear;
@@ -83,11 +79,12 @@ listFloor * getTear(double AreaTear, double raioDaCasa)//Adiciona a escada em ca
 
 }
 
-void AddFloor(Stack sector, Piso floor[],double AreaTear, double AreaMax, int * FloorNum, double raioDaCasa)//Algoritmo para organizar os comodos em cada andar
-{
+void AddFloor(Stack sector, Piso floor[],double AreaTear, double AreaMax, int * FloorNum, double raioDaCasa){ //Algoritmo para organizar os comodos em cada andar
+
     int flag = false;
     int i = 0;
     int CountFloor = 0;
+
     for(int k = 0; k < MAXFLOOR; k++)
         floor[k].empty = true;
 
@@ -100,7 +97,7 @@ void AddFloor(Stack sector, Piso floor[],double AreaTear, double AreaMax, int * 
         while(AreaMax > AreaFilled ){
             if(flag) break;
 
-            if(AreaFilled + sector.comodos[sector.topo].areaScreen < AreaMax){
+            if(AreaFilled + sector.comodos[sector.topo].areaScreen < AreaMax){// Enquanto a área construída não for maior que o limite, adicione comodos
                 if(floor[i].firstComodo == NULL){
                     floor[i].firstComodo = getTear(AreaTear, raioDaCasa);
                     AreaFilled += AreaTear;
@@ -115,7 +112,7 @@ void AddFloor(Stack sector, Piso floor[],double AreaTear, double AreaMax, int * 
                     count++;
                 }
             }
-            else{
+            else{//Caso o próximo comodo seja maior do que o que já foi construído, o algoritmo redistribui o espaço
                 double AreaDif = (AreaMax - AreaFilled);//Diferença de área cosntruida com área total
                 listFloor * aux = floor[i].firstComodo;
                 while(aux){

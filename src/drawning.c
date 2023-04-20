@@ -167,7 +167,6 @@ void WelcomeScreen()
     printf("██╔═══╝  ██║     ██║  ██║  ██║   ███║    ██║    ██║  ██║\n");
     printf("██║      ██████╗ ██║  ██║  ██║    ██║    ██║    ██║  ██║\n");
     printf("╚═╝      ╚═════╝ ╚═╝  ╚═╝  ╚═╝    ╚═╝    ╚═╝    ╚═╝  ╚═╝\n");
-
     printf("      ██████╗   ███████╗ ██║  ██║   ██║  ███████╗       \n");
     printf("      ██╔══██╗  ██╔══██║ ██║   ██║ ██║   ██╔══██║       \n");
     printf("      ██████═╝  ███████║ ██║    ████║    ███████║       \n");
@@ -222,28 +221,26 @@ void firstInput(){
     
 }
 
-void AddZoom()//Função que habilita o zoom
-{
+void AddZoom(){//Função que habilita o zoom
+
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glScalef(IndexZoom, IndexZoom, 1.0f);//Escala de zoom em função de duas variáveis globais de controle
     
 }
 
-void MoreZoom()//Função que aumenta a escal de zoom
-{
+void MoreZoom(){//Função que aumenta a escal de zoom
     if(IndexZoom >= 0) IndexZoom = IndexZoom + Zoom;
     else if (IndexZoom < 0) IndexZoom = 0;
 }
 
-void LessZoom()//Função que diminui a escala de zoom
-{
+void LessZoom(){//Função que diminui a escala de zoom
     if(IndexZoom >= 0) IndexZoom = IndexZoom - Zoom;
     else if (IndexZoom < 0) IndexZoom = 0;
 }
 
-void DrawName(float x, float y, char * string)//Função ainda não testada para a exibição de strings na tela
-{
+void DrawName(float x, float y, char * string){//Função ainda não testada para a exibição de strings na tela
+
     float factor = 0.15;
     glRasterPos2f(x, y);
     
@@ -333,8 +330,8 @@ void DrawWindows(Room comodo, GLfloat radius){
     glEnd();
 }
 
-Room DrawRoom(Room comodo, int level, double lastAngle) //Função que desenha o cômodo
-{
+Room DrawRoom(Room comodo, int level, double lastAngle){ //Função que desenha o cômodo
+
     int wall_pos = comodo.wall; //Recebe a posição da parede
     int option, f, pos = 0;
     double dangle = 0, deg, text_pos[2], angulo;
@@ -370,16 +367,6 @@ Room DrawRoom(Room comodo, int level, double lastAngle) //Função que desenha o
     comodo.wallp[0][0] = x1; comodo.wallp[0][1] = y1;
     comodo.wallp[1][0] = x2; comodo.wallp[1][1] = y2;
 
-    // glBegin(GL_LINE_LOOP);//Desenha os pontos da primeira parede
-    //     glVertex2f(cos(deg) * comodo.r1, sin(deg) * comodo.r1);
-    //     glVertex2f(cos(deg) * comodo.r2, sin(deg) * comodo.r2);
-    // glEnd();
-    // glBegin(GL_LINE_LOOP); // printa a linha parelela da parede, a de baixo
-    //     glVertex2f(x1, y1);
-    //     glVertex2f(x2, y2);
-    // glEnd();
-
-
     glBegin(GL_QUADS);//preenche a porta
         glColor3f(0.0, 0.0, 255.0);
         glVertex2f(cos(deg) * comodo.r1, sin(deg) * comodo.r1);
@@ -388,23 +375,10 @@ Room DrawRoom(Room comodo, int level, double lastAngle) //Função que desenha o
         glVertex2f(cos(deg) * comodo.r2, sin(deg) * comodo.r2);
     glEnd();
 
-
-    // glBegin(GL_LINE_LOOP); // traço vermelho superior
-    // glColor3f(1.0, 0.0, 0.0);
-    // glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 - 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 - 20) / 2));
-    // glVertex2f(cos(deg) * ((comodo.r2 + comodo.r1 + 20) / 2), sin(deg) * ((comodo.r2 + comodo.r1 + 20) / 2));
-    // glEnd();
-
     double x3 = magnitude(m, option, equ, (comodo.r1 +comodo.r2 - 20)/2);
     double y3 = reta(m, x3, equ);
     double x4 = magnitude(m, option, equ, (comodo.r1 +comodo.r2 + 20)/2);
     double y4 = reta(m, x4, equ);
-
-    // glBegin(GL_LINE_LOOP);//Segundo traço vermelho
-    //     glColor3f(1.0, 0.0, 0.0);
-    //     glVertex2f(x3, y3);
-    //     glVertex2f(x4, y4);
-    // glEnd();
 
     glBegin(GL_QUADS);//preenche a porta
         glColor3f(1.0, 0.0, 0.0);
@@ -427,13 +401,11 @@ Room DrawRoom(Room comodo, int level, double lastAngle) //Função que desenha o
 
 void MakeRoom(listFloor * comodo, GLfloat x, GLfloat y, int level, GLfloat radius, double raioDaCasa, char orientacao)//Função que desenha o andar junto de cada cômodo
 {
-
-    
     //Drawn the room selected
     listFloor * aux = comodo;
     DrawBackground(x, y, aux->comodo.r1, 360);//Chama a função de backgound
 
-    double nextAngle;
+    double nextAngle;//Define a posicao dos quartos de acordo com o sol
 
     if (orientacao == '3') nextAngle = 269.999;
     if (orientacao == '4') nextAngle = 89.999;
@@ -441,10 +413,8 @@ void MakeRoom(listFloor * comodo, GLfloat x, GLfloat y, int level, GLfloat radiu
     if (orientacao == '2') nextAngle = 179.999;
 
     DrawCircleCrown(x, y, raioDaCasa * 50);// varia a parede externa conforme a area
-    //DrawCircleCrown(x, y, (raioDaCasa * 50) - 5);
 
     DrawCircleCrown(x, y, (1.57*50));// mantem a escada constante
-    //DrawCircleCrown(x, y, (1.57*50)-5);
 
     while (aux)
     {

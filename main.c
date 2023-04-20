@@ -48,20 +48,20 @@ void keyboard(unsigned char key, int x, int y) {//Função para receber informa�
     glutPostRedisplay();
 }
 
-void BuildHouse(double largura, double comprimento){
+void BuildHouse(double largura, double comprimento){//Constroi o backend da casa a partir das bibliotecas
     Raio = AreaCircle(largura, comprimento); // raio da casa;
-    double AreaDoComodoDaEscada = Min(largura, comprimento); // menor lado
+    double AreaDoComodoDaEscada = Min(largura, comprimento); // menor lado como raio
     AreaDoComodoDaEscada = (M_PI * Raio) - (7.7)/2; // area do comodo da escada
     
     double AreaMax = (Raio * Raio * M_PI) - TEAR; // area da coroa
 
-    Stack sector = initStack(sector, Raio);
-    AddFloor(sector, Home, AreaDoComodoDaEscada, AreaMax, &NumFloor, Raio);
+    Stack sector = initStack(sector, Raio);//Inicializa a pilha de comodos de acordo com o tamanho do raio
+    AddFloor(sector, Home, AreaDoComodoDaEscada, AreaMax, &NumFloor, Raio);//Organiza os comodos dentro dos andares
     ++NumFloor;
 
-    printHouseInfo(sector, Home, AreaMax, NumFloor);
-    printStack(sector);
-    printFloor(Home, NumFloor);
+    printHouseInfo(sector, Home, AreaMax, NumFloor);//Printa a área da casa e os andares
+    printStack(sector);//printa a pilha de andares construídos
+    printFloor(Home, NumFloor);//Printa os comodos de cada andar
 }
 
 void input()//Função para a entrada de largura, comprimento da área e nascer do sol

@@ -3,6 +3,7 @@ LIBONE = ./src/calcs.c
 LIBTWO = ./src/house.c
 LIBTHREE = ./src/drawning.c
 
+
 LIBFOUR = ./src/calcs.h
 LIBFIVE = ./src/drawning.h
 LIBSIX = ./src/house.h
